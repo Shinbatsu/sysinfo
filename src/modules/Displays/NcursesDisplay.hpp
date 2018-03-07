@@ -2,11 +2,11 @@
 #define NCURSESDISPLAY_H
 
 #include <ncurses.h>
-#include "../IMonitorDisplay.hpp"
+#include "../MonitorDisplay.hpp"
 #include "../../Core.hpp"
 
 
-class NcursesDisplay: public IMonitorDisplay {
+class NcursesDisplay: public MonitorDisplay {
 
     typedef std::map<std::string, MonitorModule*>          module_map;
     typedef module_map::const_iterator                     module_iterator;

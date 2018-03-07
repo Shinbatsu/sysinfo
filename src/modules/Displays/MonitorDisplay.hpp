@@ -1,13 +1,13 @@
-#ifndef IMONITORDISPLAY_HPP
-#define IMONITORDISPLAY_HPP
+#ifndef MonitorDisplay_HPP
+#define MonitorDisplay_HPP
 
 #include "../modules/MonitorModule.hpp"
 
 class Core;
 
-class IMonitorDisplay {
+class MonitorDisplay {
    public:
-    virtual ~IMonitorDisplay(void) {};
+    virtual ~MonitorDisplay(void) {};
 
     virtual void init(void)                                                            = 0;
     virtual void update(void)                                                          = 0;
