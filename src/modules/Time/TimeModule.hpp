@@ -26,7 +26,6 @@ class TimeModule: public MonitorModule {
 
     TimeModule& operator=(TimeModule const& rhs);
 
-    //From interface :
     virtual void fetch(void);
     virtual void update(void);
 

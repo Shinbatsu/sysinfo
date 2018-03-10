@@ -25,9 +25,7 @@ const std::map<std::string, std::string>& TimeModule::getData(void) const { retu
 
 const float& TimeModule::getGraphMin(void) const { return _min; }
 
-const float& TimeModule::getGraphMax(void) const { return _max; }
-
-/* PRIVATE SECTION */
+const float& TimeModule::getGraphMax(void) const { return _max; }\
 
 std::string TimeModule::uptime() {
     struct timeval boottime;
@@ -44,7 +42,6 @@ std::string TimeModule::now() { return this->timeToDate(std::time(NULL)); }
 std::string TimeModule::timeToDate(time_t time) {
     std::tm* ptm = std::localtime(&time);
     char     buffer[32];
-    // Format: Mo, 15.06.2009 20:20:00
     std::strftime(buffer, 32, "%a, %d.%m.%Y %H:%M:%S", ptm);
     std::string result(buffer);
     return result;
