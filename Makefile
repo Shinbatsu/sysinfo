@@ -39,16 +39,16 @@ SRC = src/
 
 FILES =\
 Core.cpp\
-displays/beautiful/BeautifulDisplay.cpp\
-displays/ncurses/NcursesDisplay.cpp\
+Displays/beautiful/BeautifulDisplay.cpp\
+Displays/ncurses/NcursesDisplay.cpp\
 main.cpp\
 modules/Cat/Cat.cpp\
 modules/Hostname/Hostname.cpp\
-modules/mainCpu/MainCpu.cpp\
-modules/memory/MainMemory.cpp\
+modules/CPU/MainCpu.cpp\
+modules/Memory/MainMemory.cpp\
 modules/Network/NetworkModule.cpp\
-modules/Os/OSModule.cpp\
-modules/time/TimeModule.cpp
+modules/OS/OSModule.cpp\
+modules/Time/TimeModule.cpp
 
 OBJ_DIR = bin/
 OBJ_PATHS = $(addprefix $(OBJ_DIR), $(dir $(OBJ)))
