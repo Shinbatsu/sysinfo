@@ -1,92 +1,85 @@
-.PHONY : clean, fclean, re, all, $(NAME), lanch, debug, install, uninstall
-.SUFFIXES :
+# =========================================================
+# Makefile for sys_info
+# =========================================================
 
-# Colors :
-WHITE = \033[7;49;39m
-BLUE = \033[7;49;34m
-GREEN = \033[0;49;32m
-GREEN_BG = \033[1;49;32m
-GRAY = \033[7;49;90m
-NO_COLOR = \033[m
+.PHONY: all clean fclean re debug launch install uninstall
+.SUFFIXES:
 
+# ---------------------
+# Colors
+# ---------------------
+WHITE    := \033[7;49;39m
+BLUE     := \033[7;49;34m
+GREEN    := \033[0;49;32m
+GREEN_BG := \033[1;49;32m
+GRAY     := \033[7;49;90m
+NO_COLOR := \033[m
 
-NAME = sys_info
+# ---------------------
+# Project settings
+# ---------------------
+NAME       := sys_info
+SYSTEM     := $(shell uname -s)
+DEBUG      := no
+OPTI       := yes
+OPTI_FLAGS := -O2
+DEBUG_FLAGS:= -pedantic -Weverything -std=c++98
 
-SYSTEM = $(shell uname -s)
-
-DEBUG = no
-OPTI_FLAGS = -O2
-DEBUG_FLAG = -pedantic -Weverything -std=c++98
-
-CC = clang++
-FLAG = -Wall -Wextra -Werror
-ifeq ($(DEBUG), yes)
-        SPE_FLAGS = $(DEBUG_FLAG)
-else ifeq ($(OPTI), yes)
-        SPE_FLAGS = $(OPTI_FLAGS)
-else
-		SPE_FLAGS =
-endif
-ifeq (SYSTEM, Darwin)
-	DEPSFLAGS =
-else
-	DEPSFLAGS =
-endif
+CC         := clang++
+FLAGS      := -Wall -Wextra -Werror
+SPE_FLAGS  := $(if $(filter yes,$(DEBUG)),$(DEBUG_FLAGS),$(if $(filter yes,$(OPTI)),$(OPTI_FLAGS),))
 
 INCLUDE_LIBS := -lncurses
 
-SRC = src/
+SRC_DIR    := src/
+OBJ_DIR    := bin/
+INC_DIR    := includes
 
-FILES =\
-Core.cpp\
-Displays/beautiful/BeautifulDisplay.cpp\
-Displays/ncurses/NcursesDisplay.cpp\
-main.cpp\
-modules/Cat/Cat.cpp\
-modules/Hostname/Hostname.cpp\
-modules/CPU/MainCpu.cpp\
-modules/Memory/MainMemory.cpp\
-modules/Network/NetworkModule.cpp\
-modules/OS/OSModule.cpp\
+FILES := \
+Core.cpp \
+Displays/beautiful/BeautifulDisplay.cpp \
+Displays/ncurses/NcursesDisplay.cpp \
+main.cpp \
+modules/Cat/Cat.cpp \
+modules/Hostname/Hostname.cpp \
+modules/CPU/MainCpu.cpp \
+modules/Memory/MainMemory.cpp \
+modules/Network/NetworkModule.cpp \
+modules/OS/OSModule.cpp \
 modules/Time/TimeModule.cpp
 
-OBJ_DIR = bin/
-OBJ_PATHS = $(addprefix $(OBJ_DIR), $(dir $(OBJ)))
-OBJ = $(FILES:.cpp=.o)
+OBJ := $(FILES:.cpp=.o)
+OBJ_PATHS := $(addprefix $(OBJ_DIR), $(OBJ))
 
-INC_DIR = ./includes
-INC = $(SRC)
-INC_FILES = #$(SRC:.cpp=.hpp)# ls -1 > src.txt &&
+# ---------------------
+# Rules
+# ---------------------
+all: $(NAME)
 
-AUTOR = shinbatsu
+$(NAME): install $(OBJ_DIR) $(OBJ_PATHS)
+	@$(CC) $(FLAGS) $(SPE_FLAGS) $(OBJ_PATHS) -o $@
+	@echo "Created $(NAME)"
 
-all : $(NAME)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
+	@$(CC) $(FLAGS) $(SPE_FLAGS) -c $< -o $@
+	@echo "$< compiled"
 
-$(NAME) : install $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ)) $(addprefix $(INC), $(INC_FILES)) $(AUTOR)
-	@($(CC) $(FLAGS) $(SPE_FLAGS) $(addprefix $(OBJ_DIR), $(OBJ)) -o $(NAME))
-	@(echo creation de $(NAME))
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
-$(OBJ_DIR)%.o : $(addprefix $(SRC), %.cpp) $(addprefix $(INC), $(INC_FILES))
-	@($(CC) $(FLAG) $(SPE_FLAGS) -c $< -o $@)
-	@(echo $< " created")
+clean:
+	@rm -rf $(OBJ_DIR)
+	@echo "Removed object files"
 
-$(OBJ_DIR) :
-	mkdir -p $(OBJ_PATHS)
+fclean: clean
+	@rm -f $(NAME)
+	@echo "Removed $(NAME)"
 
-clean :
-	@(rm -f $(addprefix $(OBJ_DIR), $(OBJ)))
-	@(rm -rf $(OBJ_DIR))
-	@(echo suppression des $(OBJ_DIR).o)
+re: fclean all
 
-fclean : clean
-	@(rm -f $(NAME))
-	@(echo suppression de $(NAME))
+debug:
+	@$(CC) $(DEBUG_FLAGS) $(addprefix $(SRC_DIR), $(FILES)) -I$(INC_DIR) -o $(NAME)
+	@./$(NAME)
 
-re : fclean all
-
-debug :
-	@($(CC) $(DEBUG_FLAG) $(addprefix $(SRC), $(FILES)) -I$(INC) -o $(NAME))
-	./$(NAME)
-
-lanch : re
-	./$(NAME)
+launch: re
+	@./$(NAME)
