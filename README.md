@@ -17,3 +17,17 @@ It supports both normal and interactive ncurses display modes and includes some 
 ```
 ./sys_info [-lhtcrnao]
 ```
+
+### Flags
+- `-l` : Enable ncurses mode
+- `-h` : Display hostname
+- `-t` : Display time information
+- `-c` : Display CPU information
+- `-r` : Display RAM information
+- `-n` : Display network information
+- `-a` : Display ASCII cat
+- `-o` : Display OS information
+- `--help` : Print usage information
+
+If no flags are provided, the program displays all information by default.
+If `-l` is used alone, it enables ncurses mode and displays all information.
