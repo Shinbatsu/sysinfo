@@ -10,8 +10,6 @@ It supports both normal and interactive ncurses display modes and includes some 
 - Display RAM information
 - Display network information
 - Display operating system information
-- Optional ncurses mode for dynamic display
-- Display an ASCII cat
 
 ## Usage
 ```
@@ -19,13 +17,11 @@ It supports both normal and interactive ncurses display modes and includes some 
 ```
 
 ### Flags
-- `-l` : Enable ncurses mode
 - `-h` : Display hostname
 - `-t` : Display time information
 - `-c` : Display CPU information
 - `-r` : Display RAM information
 - `-n` : Display network information
-- `-a` : Display ASCII cat
 - `-o` : Display OS information
 - `--help` : Print usage information
 
